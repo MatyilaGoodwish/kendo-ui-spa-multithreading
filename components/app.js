@@ -96,7 +96,7 @@ function Init(e)
      * @layoutMainTemplate
      */
     const AppLayout = new kendo.Layout(`
-        <div><img src="logo.png"  alt="logo"/></div>
+        <div><img src="loading.jpg"  alt="logo" width="130"/></div>
          <br/>
         <header id="navigation">
         </header>

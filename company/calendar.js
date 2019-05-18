@@ -7,7 +7,7 @@ var templateOutput = `
             Email Address: <input type="text" data-role="autocomplete" placeholder="email address" />
         </h3>
         <h3>
-            Phone Number: <input type="number" data-role="autocomplete" placeholder="email address" />
+            Phone Number: <input type="number" data-role="autocomplete" placeholder="phone" />
         </h3>
         <div data-role="calendar"></div>
 
