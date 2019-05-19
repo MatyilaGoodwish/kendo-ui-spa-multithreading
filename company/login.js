@@ -7,11 +7,11 @@ var templateOutput = `
     <div class="card">
          <div class="card-header">
             <div class="card-title">
-                <h4>Calendar</h4>
+                <h4>Login</h4>
             </div>
          </div>
          <div class="card-body">
-
+                <input type="text" class="form-control" placeholder="email address" />
          </div>
          <div class="card-footer">
          </div>

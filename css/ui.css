@@ -1,0 +1,47 @@
+ 
+#root{
+    padding:0px;
+    margin:0px;
+   
+}
+.item-b{
+    padding:0.3em;
+}
+
+.loader{
+    width: 150px;
+}
+.main-footer{
+    padding:3em;
+    color: white;
+    background-color:black;
+    position: relative;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    z-index:1000;
+}
+
+body{
+    overflow-y: show;
+    background: url(../ui/Lighthouse.jpg) center fixed no-repeat;
+    background-size: cover;
+}
+
+#content{
+    margin-top: 60px;
+    margin-bottom: 60px;
+    min-height: 500px!important;
+    z-index:500;
+    min-width: 100%!important;
+}
+
+.card-header{
+    background:rgb(0, 0, 0);
+    font-weight: 100;
+    text-shadow: 1px 1px 1px black;
+    color:white;
+}
+.m1{
+    margin: 1em!important;
+}

@@ -26,23 +26,28 @@
  * @country South Africa
  * @software JavaScript
  */
-(function(){
+(function(){ 
 
     var sw = new Worker('preloader.js');
-    sw.postMessage('loader');
+    sw.postMessage('loader',[]);
     sw.addEventListener('message', (res)=>{
         document.getElementById('root').innerHTML = res.data;
     });
 
+
+   
+
     const myStyles = [
-        'styles/kendo.common.min.css',
-        'styles/kendo.black.min.css'
+        'styles/kendo.common.min.css', 
+        'styles/kendo.moonlight.min.css',
+        'css/bootstrap.css',
+        'css/ui.css'
     ];
 
     const dependancies = [
         'js/jquery.min.js',
         'js/kendo.all.min.js',
-        'js/jszip.min.js'
+        'js/bootstrap.bundle.min.js'
     ];
 
     for(let i = 0; i < myStyles.length; i++){
@@ -51,6 +56,7 @@
         loadStyles.rel = "stylesheet";
         document.querySelector('HEAD').appendChild(loadStyles);
     }
+
     for(let j = 0; j < dependancies.length; j++){
         var depths = document.createElement('script');
         depths.src = dependancies[j];
@@ -62,7 +68,7 @@
  * Handle race conditions on the browser.
  * await 10s initial load
  */
-setTimeout(middleware, 10000);
+setTimeout(middleware, 5000);
 function middleware(){
     document.getElementById('root').innerHTML = '';
     $(document).ready(Init.bind(this));
@@ -78,33 +84,66 @@ const viewEngine = new Worker('engine.js');
  * Main application 
  * @e #param {Event}
  */
-function Init(e)
-{
-    /**
-     * MainMenuNavigation
-     * @templateMenu
-     */
-    const menuView = new kendo.View(`
-        <ul data-role="menu">
-            <li><a href="#/Welcome">Home</a></li>
-            <li><a href="#/About">About</a></li>
-            <li><a href="#/Calendar">Calendar</a></li>
-        </ul>
-    `);
+function Init(){
+   
     /**
      * Initial Template
      * @layoutMainTemplate
      */
+ 
     const AppLayout = new kendo.Layout(`
-        <div><img src="loading.jpg"  alt="logo" width="130"/></div>
-         <br/>
-        <header id="navigation">
-        </header>
-            <section style="padding:5em;">
+        <div>
+            <section class="container">
                 <div id="content"></div>
             </section>
-        <div id="footer"></div>
+            
+        </div>
+        <div id="footer" class="main-footer">
+            Copyright &copy ${new Date().getFullYear()} BDSoft South Africa - All rights reserved.
+        </div>
     `);
+
+    
+
+    const business = kendo.observable({
+        timesheets: {
+            departments: [
+                'Human Resources',
+                'Information Services',
+                'Computer Services',
+                'Support'
+            ],
+            continue: function(){
+                location.replace('#/information');
+            }
+        },
+        information:{
+            activity:{
+                schedules: [
+                    'Meeting Request',
+                    'Request CallBack'
+                ],
+                continue: function(){
+                    location.replace('#/support');
+                }
+            }
+        },
+        support:{
+            departments:[
+                'Hosting',
+                'Software ',
+                'Billing',
+                'Administration'
+            ],
+            subject: null,
+            message: null,
+            continue: function(){
+
+            }
+        }        
+    })
+
+
     /**
      * KendoUI-View Engine with Worker Thread
      * @param {TEMPLATE} viewComponent 
@@ -112,13 +151,13 @@ function Init(e)
      */
     function viewDigest(viewComponent){
         if(viewComponent){
-            viewEngine.postMessage(viewComponent);
+            viewEngine.postMessage(viewComponent, []);
             viewEngine.addEventListener('message', function(template){
-                AppLayout.showIn("#navigation", menuView);
-                AppLayout.showIn("#content", new kendo.View(template.data));
+                AppLayout.showIn("#content", new kendo.View(template.data, { model: business}));
             });
         }
     }
+
     /**
      * Router
      * @initRouterClass
@@ -128,29 +167,41 @@ function Init(e)
             AppLayout.render("#root");
         }
     });
+
     /**
      * Application
      * @routeMethodsRequests
      */
-    AppRouter.route('/Welcome', function(){
+    AppRouter.route('/welcome', ()=>{
        viewDigest('./company/welcome');
     });
 
-    AppRouter.route('/About', function(){
-        viewDigest('./company/about');
-     });
+    AppRouter.route('/back', ()=>{
+        viewDigest('./company/welcome');
+    });
 
-     AppRouter.route('/Calendar', function(){
-        viewDigest('./company/calendar');
-     });
-
-     AppRouter.route('/Support', function(){
+    AppRouter.route('/support', ()=>{
         viewDigest('./company/support');
-     });
+    });
 
+    
+    AppRouter.route('/timesheets', ()=>{
+        viewDigest('./company/timesheets');
+    });
+
+    AppRouter.route('/information', ()=>{
+        viewDigest('./departments/information');
+    });
+
+    AppRouter.route('/spreadsheet', ()=>{
+        viewDigest('./departments/spreadsheet');
+    });
+    
+      
     AppRouter.start();
 
-    AppRouter.navigate("/About");    
+    AppRouter.navigate("/welcome");    
+ 
 }
 
 

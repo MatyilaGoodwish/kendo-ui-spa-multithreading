@@ -17,5 +17,5 @@ self.addEventListener('message', (template)=>{
      * Export implementation of the template output
      * @variable {templateOutput}
      */
-this.postMessage(templateOutput);
+    this.postMessage(templateOutput, []);
 });
