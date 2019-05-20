@@ -99,7 +99,7 @@ function Init(){
             
         </div>
         <div id="footer" class="main-footer">
-            Copyright &copy ${new Date().getFullYear()} BDSoft South Africa - All rights reserved.
+            Copyright &copy ${new Date().getFullYear()} BDSoft, South Africa - All rights reserved. <a href="#/about">The Project & the developer</a> 
         </div>
     `);
 
@@ -111,7 +111,11 @@ function Init(){
                 'Human Resources',
                 'Information Services',
                 'Computer Services',
-                'Support'
+                'Support',
+                'Contact Centre',
+                'Communication',
+                'Retail Services',
+                'Other'
             ],
             continue: function(){
                 location.replace('#/information');
@@ -120,11 +124,15 @@ function Init(){
         information:{
             activity:{
                 schedules: [
-                    'Meeting Request',
-                    'Request CallBack'
+                    'Development Project',
+                    'Costing for Website',
+                    'UI/UX Design',
+                    'Mobile App Solutions',
+                    'Game Development Costing',
+                    'Other Technology Needs'
                 ],
                 continue: function(){
-                    location.replace('#/support');
+                   kendo.alert('Your message has been received I will get back to you the soonest - Goodwish Matyila');
                 }
             }
         },
@@ -138,7 +146,7 @@ function Init(){
             subject: null,
             message: null,
             continue: function(){
-
+                kendo.alert('Thank you I will get back to you, alternatively you can just call me directly 082 632-5761');
             }
         }        
     })
@@ -197,6 +205,9 @@ function Init(){
         viewDigest('./departments/spreadsheet');
     });
     
+    AppRouter.route('/about', ()=>{
+        viewDigest('./company/about');
+    });
       
     AppRouter.start();
 
